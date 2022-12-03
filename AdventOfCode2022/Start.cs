@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -13,7 +13,7 @@ namespace AdventOfCode2022
     {
         public static void Main()
         {
-            OutputHandler.Run(new Day01(), 1);
+            OutputHandler.Run(new Day03(), 3);
         }
     }
 }
