@@ -1,1 +1,4 @@
 .vs/
+AdventOfCode2022/bin/
+AdventOfCode2022/obj/
+/public/static/**/*.js
