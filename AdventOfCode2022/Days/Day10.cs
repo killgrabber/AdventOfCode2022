@@ -14,9 +14,7 @@ namespace AdventOfCode2022.Days {
 
       public List<string> commands = new List<string>();
       public List<int> signalStrenghts = new List<int>();
-
       public char[,] display = new char[7, 40];
-
       bool isCalculating = false;
 
       public void drawPixel() {
@@ -88,8 +86,6 @@ namespace AdventOfCode2022.Days {
         return $"c: {cycle} x: {register}";
       }
     }
-
-
 
     public void PartOne() {
       string[] lines = File.ReadAllLines(@"../../../Inputs/input10.txt");
