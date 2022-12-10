@@ -39,18 +39,16 @@ namespace AdventOfCode2022.Days {
     }
 
     public class Rope {
-      public List<List<Position>> positions = new List<List<Position>>();
-      public List<Position> tailPoses = new List<Position>();
-
-      public int counter = 0;
+      public List<List<Position>> positions = new();
+      public List<Position> tailPoses = new();
 
       static int capacity = 1000;
       static int startX = capacity / 2;
       static int startY = capacity / 2;
-      Position currentHeadPose = new Position('H', startX, startY, true);
-      Position currentTailPose = new Position('T', startX, startY);
+      Position currentHeadPose = new('H', startX, startY, true);
+      Position currentTailPose = new('T', startX, startY);
 
-      List<Position> uniqueEndPoses = new List<Position>();
+      List<Position> uniqueEndPoses = new();
 
       public Rope() {
 
@@ -77,15 +75,6 @@ namespace AdventOfCode2022.Days {
       public void add(ref Position position) {
         position.visited = positions[position.x][position.y].visited;
         positions[position.x][position.y] = position;
-        return;
-
-        if (position.x >= positions.Count) {
-          List<Position> newRow = new List<Position>();
-          newRow.Add(position);
-          positions.Add(newRow);
-        } else {
-          positions[position.x].Add(position);
-        }
       }
 
       public void move(string inputLine) {
@@ -140,14 +129,10 @@ namespace AdventOfCode2022.Days {
           }
         }
 
-        //moveTail(x, y);
+        //move all tails
         for (int i = tailPoses.Count - 1; i > 0; i--) {
           int[]? move = needsToBeMoved(tailPoses[i], tailPoses[i - 1]);
           if (move != null) {
-            if(i == 1) {
-              //Console.WriteLine("tails needs to be moved");
-              counter++;
-            }
             //Console.WriteLine($"tail at {i - 1} should me moved by {move[0]},{move[1]}");
             tailPoses[i - 1] = positions[tailPoses[i - 1].x + move[0]][tailPoses[i - 1].y + move[1]];
             tailPoses[i - 1].ropeCount = tailPoses[i].ropeCount + 1;
@@ -184,63 +169,6 @@ namespace AdventOfCode2022.Days {
         return null;
       }
 
-      public void moveTail(int x, int y) {
-        int xHead = x + currentHeadPose.x;
-        int yHead = y + currentHeadPose.y;
-
-        int xTail = currentTailPose.x;
-        int yTail = currentTailPose.y;
-
-        double[] d = getVec(currentHeadPose, currentTailPose);
-        double diff = getDiff(currentHeadPose, currentTailPose);
-        //Console.WriteLine($"head: {xHead},{yHead}, tail: {xTail},{yTail} vec: {d[0]},{d[1]} diff {diff}");
-
-
-        if (diff == 2) {
-         // Console.WriteLine($"Moving tail by {x},{y}");
-          currentTailPose.state = '.';
-          currentTailPose = positions[currentHeadPose.x - x][currentHeadPose.y - y];
-          currentTailPose.state = 'T';
-          tailPoses.Add(currentTailPose);
-          //currentTailPose.visited = true;
-          for (int i = 0; i < tailPoses.Count; i++) {
-            Position p = tailPoses[i];
-            p.ropeCount++;
-          }
-        } else if (diff > 2) {
-          //move diag
-          int moveX = 1;
-          int moveY = 1;
-          if (d[0] < 0 && d[1] < 0) {
-            //down left
-            moveX = -1;
-            moveY = -1;
-          } else if (d[0] < 0 && d[1] > 0) {
-            //down right
-            moveX = -1;
-            moveY = 1;
-          } else if (d[0] > 0 && d[1] < 0) {
-            // top left
-            moveX = 1;
-            moveY = -1;
-          } else if (d[0] > 0 && d[1] > 0) {
-            //top right
-          }
-          //Console.WriteLine($"Moving tail diag by {moveX},{moveY}");
-          int lastTailX = currentTailPose.x;
-          int lastTailY = currentTailPose.y;
-          //Console.WriteLine($"last tail pos {lastTailX},{lastTailY}");
-          currentTailPose = positions[lastTailX + moveX][lastTailY + moveY];
-          currentTailPose.state = 'T';
-          tailPoses.Add(currentTailPose);
-          for (int i = 0; i < tailPoses.Count; i++) {
-            Position p = tailPoses[i];
-            p.ropeCount++;
-          }
-
-        }
-      }
-
       public double getDiff(Position p1, Position p2) {
         double[] d = getVec(p1, p2);
         d[0] = Math.Abs(d[0]);
@@ -248,7 +176,7 @@ namespace AdventOfCode2022.Days {
         return Math.Sqrt((d[0] * d[0]) + (d[1] * d[1]));
       }
 
-      public double[] getVec(Position p1, Position p2) {
+      public static double[] getVec(Position p1, Position p2) {
         double[] ret = new double[2];
         ret[0] = p1.x - p2.x;
         ret[1] = p1.y - p2.y;
@@ -282,7 +210,7 @@ namespace AdventOfCode2022.Days {
 
     public void PartOne() {
       string[] lines = File.ReadAllLines(@"../../../Inputs/input09.txt");
-      Rope rope = new Rope();
+      Rope rope = new();
       foreach (string line in lines) {
         //Console.WriteLine(line);
         rope.move(line);
@@ -291,7 +219,6 @@ namespace AdventOfCode2022.Days {
 
       Console.WriteLine($"Count: {rope.count()}");
       Console.WriteLine($"Count: {rope.countPartTwo()}");
-      Console.WriteLine($"Counter: {rope.counter}");
     }
 
     public void PartTwo() {
