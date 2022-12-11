@@ -84,7 +84,6 @@ namespace AdventOfCode2022.Days {
         int moveAmount = int.Parse(strings[1]);
 
         int newX = 0;
-
         int newY = 0;
 
         if (command == "U") {
