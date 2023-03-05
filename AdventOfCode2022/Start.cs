@@ -7,13 +7,13 @@ using System.Text;
 using System.Threading.Tasks;
 using AdventOfCode2022.Days;
 
-namespace AdventOfCode2022
-{
+namespace AdventOfCode2022 { 
+
     public class Start
     {
         public static void Main()
         {
-            OutputHandler.Run(new Day11(), 3);
+            OutputHandler.Run(new Day01(), 3);
         }
     }
 }
